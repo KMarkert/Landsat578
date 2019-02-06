@@ -45,17 +45,22 @@ def update_metadata_lists():
     print('Please wait while Landsat578 updates Landsat metadata files...')
     if not os.path.isdir(SCENES):
         os.mkdir(SCENES)
-    os.chdir(SCENES)
+    # os.chdir(SCENES)
     ls = os.listdir(SCENES)
     for f in ls:
         if 'scenes_' in f and LATEST not in f:
             os.remove(os.path.join(SCENES, f))
+        else:
+            print('Latest metadata file is already downloaded, skipping metadata update...')
+            return None
+
     download_latest_metadata()
     split_list()
     os.remove(LATEST)
     os.remove(SCENES_ZIP)
     with open(LATEST, 'w') as empty:
         empty.write('')
+
     return None
 
 
